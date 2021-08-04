@@ -536,6 +536,8 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Ob
 
 // Коллекции Map и Set
 //
+// https://learn.javascript.ru/map-set
+//
 // Map – это коллекция ключ/значение, как и Object. Но основное отличие в том, что Map позволяет использовать ключи любого типа.
 //
 //
@@ -553,51 +555,51 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Ob
 //
 // С помощью for of мы можем перебрать эту коллекцию
 //
-// // newMap.entries() перебирает ключи и значение
+// Пример 1 newMap.entries() перебирает ключи и значение
 // for (let all of newMap.entries()) {
 //   log(all)//[ключ,значение], ['boolean', true]
 // }
-// // newMap.values() перебирает значения
+// Пример 2 newMap.values() перебирает значения
 // for (let values of newMap.values()) {
 //   log(values)//значение, true
 // }
-// // newMap.keys() перебирает ключи
+// Пример 3 newMap.keys() перебирает ключи
 // for (let key of newMap.keys()) {
 //   log(key)//ключ, boolean
 // }
 //
 // Map имеет встроенный метод forEach, схожий со встроенным методом массивов Array
 //
-// newMap.forEach((value, key, map) => {
+// Пример 4 newMap.forEach((value, key, map) => {
 //  log(`${key}: ${value}`); // ключ: значение и так далее
 // });
 //
-// Пример map.set(key,value)
+// Пример 1 map.set(key,value)
 //
 // let newMap = new Map();
 // newMap.set('ключ', 'значение');
 // newMap.set('boolean', true);
 //
-// Пример map.get(key)
+// Пример 2 map.get(key)
 //
 // log(newMap.get('ключ')) // выдается значение по ключу , то есть 'значение'
 // log(newMap.get('boolean')) // выдается значение по ключу , то есть true
 //
-// Пример map.has(key)
+// Пример 3 map.has(key)
 //
 // log(newMap.has('ключ')) // выдается значение true, т.к этот ключ существует
 // log(newMap.has('123')) // выдается значение false, т.к этот ключ не существует
 //
-// Пример map.delete(key)
+// Пример 4 map.delete(key)
 //
 // log(newMap.delete('ключ')) // удаляет пару ключ-значение
 // log(newMap.has('ключ')) // будет false, т.к ключ отсутсвует
 //
-// Пример map.clear(key)
+// Пример 5 map.clear(key)
 //
 // log(newMap.clear()) // очищает полностью коллекцию
 //
-// Пример map.size(key)
+// Пример 6 map.size(key)
 //
 // log(newMap.size) // возвращает текущее количество элементов.
 //
@@ -635,36 +637,36 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Ob
 //
 // let set = new Set(["апельсин", "яблоко", "банан"]);
 //
-// for (let value of set) log(value);
+// Пример 1 for (let value of set) log(value);
 //
 // то же самое с forEach:
-// set.forEach((value, valueAgain, set) => {
+// Пример 2 set.forEach((value, valueAgain, set) => {
 //   alert(value);
 // });
 //
-// Пример set.add(value)
+// Пример 1 set.add(value)
 //
 // let set = new Set([1,2,3,4,5,5,6,7,8,9,9,7,2])
 // set.add(10) // Добавляем 10 в нашу коллекцию
 // for (let value of set) log(value); Выводим по-очереди значение в коллекции Set от 1 до 10
 //
-// Пример set.delete(value)
+// Пример 2 set.delete(value)
 //
 // set.delete(10)
 //
 // Теперь у нас коллекция Set равна значениям от 1 до 9
 //
-// Пример set.has(value)
+// Пример 3 set.has(value)
 //
 // set.has(9) // возвратит true, т.к значение существует\
 // set.delete(9)// удаляем значение
 // set.has(9) // false, т.к значение удаленно
 //
-// Пример set.clear()
+// Пример 4 set.clear()
 //
 // Теперь у нас set пустая коллекция
 //
-// Пример set.size
+// Пример 5 set.size
 //
 // let set = new Set([1,2,3,4,5,5,6,7,8,9,9,7,2])
 // log(set.size) //  Узнаем размер коллекции, оно равно 9 
@@ -732,3 +734,34 @@ https://developer.mozilla.org/ru/docs/Glossary/First-class_Function
 // doHomework('math', function() {
 //   log('Finished my homework');
 // });
+//
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Что такое callback-функция? 
+//
+//Callback-функция - это функция которая была передена , как аргумент в вызове другой функции и будет  выполнена, когда основая функция будет выполнена.
+// 
+// https://ru.hexlet.io/blog/posts/javascript-what-the-heck-is-a-callback
+// https://developer.mozilla.org/en-US/docs/Glossary/Callback_function
+//
+// Пример:
+//
+// function check(elem,callback) {  
+//   log(`Вы выбрали ${elem}`)
+//  setTimeout(() => {
+//    callback()  // -------> Для наглядности был применен setTimeout , чтобы было более понимания, как это 
+//  }, 1000)  // работает , то есть в начале пройдет вся основаня функция , а потом в конце выполнится наш
+//  }  //callback  ---____
+//                       /  
+//                      V
+//  check("Золото", function() {  -----> как мы видим, мы передали функцию, как аргумент
+//     console.log('Это callback')
+//  })
+//
+// Если мы хотим использовать множество callbackov , то лучше использовать для этого Promise.
