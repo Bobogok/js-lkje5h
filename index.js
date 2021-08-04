@@ -123,9 +123,144 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/this
 В JavaScript функции это объекты. И как объекты, функции имеют свои методы,как apply(), call() и bind(). 
 Можно сказать, что Apply() и Call() буквально идентичны друг другу и зачастую используются в JavaScript для того, чтобы заимствовать методы и выставлять значения this.
 В общем.
-bind() - 
-*/
+// call() --- /
+// Метод call() вызывает функцию с указанным значением this и индивидуально предоставленными аргументами.
 
+// Синтаксис
+// fun.call(thisArg[, arg1[, arg2[, ...]]])
+
+// Пример с объектом:
+// let person = { // Создаем объект к которому мы будет использовать call()
+//   name: 'Ivan', // Имя
+//   age: 96, // Возраст
+//   personInfo() { // Информация
+//     log(`Этого человека зовут ${this.name}. Его возраст составляет ${this.age}`)
+//   },
+// }
+
+// let person2 = { // Создаем объект , который мы будем использовать как 'this'
+//   name: 'Vanya', // Имя
+//   age: 30 // Возраст
+// }
+
+// person.personInfo.call(person2) // Используем наш объект person2 , как this в методе personInfo объекта person. Без написания какого любого объекта в методе call , this.name == und и this.age == und , то есть this не будет ссылаться на какой-то объект.
+
+// Пример с классом и объектом:
+
+// class Animal { // Создаем класс к которому мы будет использовать call()
+//   constructor(name,volume) { // Конструктор принимает переданные аргументы и укомплектовывает их
+//     this.name = name; // name == первому переданному аргументу
+//     this.volume = volume // volume == второму переданному аргументу
+//   }
+//   getInfo(food,age) { // Создаем метод, в котором используется аргументы , выступающие , как св-ва
+//     this.food = food // Добавляем дополнительные св-ва переданные , как аргумент в вызове данного метода
+//     this.age = age // 
+//     log(`Это животное  ${this.name}. Ему ${this.age} лет. Громкость которого ${this.volume} дцб. Питается   //      чаще всего ${this.food}`)
+//   }
+// }
+
+// let lion = { //  Создаем объекты, которые будут использоваться , как this в методе getInfo() класса Animal
+//   name: 'Лев',
+//   volume: '0.9'
+// }
+
+// let tiger = {
+//   name: 'Тигр',
+//   volume: '0.7'
+// }
+/* new Animal().getInfo.call(lion, 'Мясом', '19') // Создаем новый объект и привязываем с помощью call() объект lion, теперь lion выступает за роль this , а так-же добавляем 2 аргумента в метод getInfo() 
+this.food == "Мясом", this.age == 19. 
+Получаем: Это животное Лев. Ему 19 лет. Громкость которого 0.9 дцб. Питается чаще всего Мясом.
+*/
+// new Animal().getInfo.call(tiger, 'Мясом', '10')
+// Получаем: Это животное Тигр. Ему 10 лет. Громкость которого 0.7 дцб. Питается чаще всего Мясом.
+
+// apply() --- /
+// Метод apply() полностью идентичен функции call(), но принимает в себя массив, как аргумент
+
+// Синтаксис
+// fun.apply(thisArg, [argsArray])
+
+// Пример с классом и объектом
+
+// class Animal { 
+//   constructor(name,volume) { 
+//     this.name = name; 
+//     this.volume = volume 
+//   }
+//   getInfo(food,age) { 
+//     this.food = food 
+//     this.age = age 
+//     log(`Это животное  ${this.name}. Ему ${this.age} лет. Громкость которого ${this.volume} дцб.   Питается  чаще всего ${this.food}`)
+//   }
+// }
+
+// let arr = ['Мясом', 19]
+
+// let lion = {
+//   name: 'Лев',
+//   volume: '0.9'
+// }
+
+// let tiger = {
+//   name: 'Тигр',
+//   volume: '0.7'
+// }
+
+
+// new Animal().getInfo.apply(lion, arr) // Как мы видим, вся процедура такая-же , как и call(), только в аргументы передаем массив, а в call() через запятую
+// new Animal().getInfo.apply(tiger, ['Мясом', 10])
+
+// bind() --- /
+// Метод bind() Cоздаёт новую функцию, которая при вызове устанавливает в качестве контекста выполнения this предоставленное значение.
+//
+// Синтаксис
+// fun.bind(thisArg[, arg1[, arg2[, ...]]])
+//
+//Пример с классом и объектом
+//
+
+// let date = new Date(); // создаем переменную которая будет являтся ссылкой на объект Date
+
+// class Person  {
+//   constructor(name,yearBirth) {
+//     this.name = name,
+//     this.yearBirth = yearBirth
+//   }
+  // calculateAge() {
+  //   log(`${this.name}, ${date.getFullYear() - this.yearBirth} год`)
+  // }
+// }
+
+// let obj = {
+//   name: 'Egor',
+//   yearBirth: 1990,
+// }
+
+// new Person().calculateAge.bind(obj)() //  Привязываем к методы класса Person объект obj , как this
+//Результат : Egor , 31 год
+//Пример с объектом // создаем переменную которая будет являтся ссылкой на объект Date
+//
+// let date = new Date();
+// let person = {
+//   name: 'Egor',
+//   yearBirth: 1985,
+//   calculateAge(job) {
+//     log(`${this.name}, ${date.getFullYear() - this.yearBirth} год. Работает на ${job}`)
+//   }
+// }
+
+// let person2 = {
+//   name: 'Vlad',
+//   yearBirth: 1930,
+// }
+
+// person.calculateAge.bind(person2, 'Стройке')()
+// Привязываем к методы объекта person объект person2 , как this
+//Результат : Vlad , 91 год
+
+
+// Итог: bind,call,aplly мы используем для привязки объекта , как this в методаъ объектов, классов и функкий конструкторов
 
 
 // Какая разница между ключевыми словами «var», «let» и «const»?
