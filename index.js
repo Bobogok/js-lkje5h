@@ -3,7 +3,8 @@ const log = console.log;
 /* Почему при сложении двух float значений у нас может теряется точность? 
 В JavaScript нет возможности для хранения точных значений 0.1 или 0.2, используя двоичную систему, точно также, как нет возможности хранить одну третью в десятичной системе счисления. 
 Числовой формат IEEE-754 решает эту проблему путём округления до ближайшего возможного числа. Из за этого возникают такие числа.
-https://learn.javascript.ru/number#netochnye-vychisleniya */
+https://learn.javascript.ru/number#netochnye-vychisleniya 
+*/
 // log(0.1 + 0.2);
 // log(`Исправление: ${+(0.1 + 0.2).toFixed(2)}`);
 // log(9999999999999999);
@@ -121,7 +122,8 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/this
 //   name: 'Ivan',
 //   surname: 'Dangeon Master'
 // }
-// log(new Me().callme.call(profileObj)); //вызов метода с помощью call - примязка свойств нашего объекта
+// let meClass = new Me()
+// log(meClass.callme.call(profileObj)); //вызов метода с помощью call - примязка свойств нашего объекта
 // let me = new Me('Ivan', 'Dick300'); // создание нового объекта и вызов его уже с переданными как аргуметы значеними
 // log(me.callme())
 // Стрелочные фции
@@ -131,6 +133,7 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/this
 //             }
 //           };
 // let something = obj.bar() //Присваиваем ссылку возвращаемой функции переменной something
+// log(something() === window)
 // log(something() === obj) // вызываем стрелочную функцию без определения this, срелочная фция понимает на каком объекте она была заскнута (obj), при использовании обычной фции в таком же контексте - мы бы получали window
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,7 +310,7 @@ https://medium.com/nuances-of-programming/%D0%B2-%D1%87%D1%91%D0%BC-%D1%80%D0%B0
 // arr[1] = 5 // мы можем изменить значение под индесом 1 в массиве
 // delete arr[0] // даже удалять
 // arr.length = 0 // или даже так
-// arr = []; но мы НЕ можем сделать так
+// arr = []; //но мы НЕ можем сделать так
 // log(arr);
 
 // const obj = {
@@ -323,6 +326,7 @@ https://medium.com/nuances-of-programming/%D0%B2-%D1%87%D1%91%D0%BC-%D1%80%D0%B0
 // obj = 'another obj' // но не можем изменять значение константы
 
 // var всплывает, let нет
+// log(variable)
 // function hoisting() {
 //   // log(variable) // var всплыло но пока не было передано значение
 //   // variable = 'something'
@@ -349,40 +353,40 @@ https://medium.com/nuances-of-programming/%D0%B2-%D1%87%D1%91%D0%BC-%D1%80%D0%B0
 
 // курьезы var
 // function sum() {
-//   var a = 777;
-//   var b = 888;
-//   if (true) {
-//     var a = 5; // у var нет блочной ОВ, поэтому a и b перезапишуться
-//     var b = 10;
-//   }
-//   log(a + b);
+//   // var a = 777;
+//   // var b = 888;
+//   // if (true) {
+//   //   var a = 5; // у var нет блочной ОВ, поэтому a и b перезапишуться
+//   //   var b = 10;
+//   // }
+//   // log(a + b);
 
-//   var a = 777;
-//   var b = 888;
-//   if (true) {
-//     let a = 5; // с объявлением через let все иначе, мы будем находится только в блоке if и не сможем перезаписать a и b
-//     let b = 10;
-//   }
-//   log(a + b);
+//   // var a = 777;
+//   // var b = 888;
+//   // if (true) {
+//   //   let a = 5; // с объявлением через let все иначе, мы будем находится только в блоке if и не сможем перезаписать a и b
+//   //   let b = 10;
+//   // }
+//   // log(a + b);
 // }
 // sum()
 
 // function cycleFor() {
-//   var arr = [1, 2, 3];
-//   var lengthArr = arr.length;
-//   for (var arr = 0; arr < lengthArr; arr++) {
-//     // something
-//   }
-//   // мы создали цикл для условного взаимодействия с массивом, но проблема в том что for - это тоже блочная ОВ, по сути мы просто перезаписали значение переменной arr на 0 и вернули итог выполнения задачи
-//   log(arr);
+//   // var arr = [1, 2, 3];
+//   // var lengthArr = arr.length;
+//   // for (var arr = 0; arr < lengthArr; arr++) {
+//   //   // something
+//   // }
+//   // // мы создали цикл для условного взаимодействия с массивом, но проблема в том что for - это тоже блочная ОВ, по сути мы просто перезаписали значение переменной arr на 0 и вернули итог выполнения задачи
+//   // log(arr);
 
-//   var arr = [1, 2, 3];
-//   var lengthArr = arr.length;
-//   for (let arr = 0; arr < lengthArr; arr++) {
-//     // something
-//   }
-//   // с let такой проблемы не будет, оно существует только в блоке ОВ цикла
-//   log(arr);
+//   // var arr = [1, 2, 3];
+//   // var lengthArr = arr.length;
+//   // for (let arr = 0; arr < lengthArr; arr++) {
+//   //   // something
+//   // }
+//   // // с let такой проблемы не будет, оно существует только в блоке ОВ цикла
+//   // log(arr);
 // }
 // cycleFor()
 
@@ -391,7 +395,7 @@ https://medium.com/nuances-of-programming/%D0%B2-%D1%87%D1%91%D0%BC-%D1%80%D0%B0
 //   // if (digit >= 500) {
 //   //   var digit = 100;
 //   // }
-//   // // здесь мы просто перезаписываем значение с помощью объявления var с таким же именем
+//   // // // здесь мы просто перезаписываем значение с помощью объявления var с таким же именем
 //   // log(digit)
 
 //   // let digit = 500;
@@ -429,19 +433,19 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Ob
 https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/seal
 */
 // Пример 1 - Следует раскомментировать, для правильной работы всех примеров
-// let obj = {
-//   prop: 'something',
-//   method: function() {
-//     return this.prop;
-//   },
-//   otherObj: {
-//     otherObjProp: 'something',
-//     otherMethod: function() {
-//       return this.otherObjProp;
-//     }
-//   },
-//   arr: [1, 2, 3],
-// }
+let obj = {
+  prop: 'something',
+  method: function() {
+    return this.prop;
+  },
+  otherObj: {
+    otherObjProp: 'something',
+    otherMethod: function() {
+      return this.otherObjProp;
+    }
+  },
+  arr: [1, 2, 3],
+}
 // delete obj.prop // все как обычно, мы можем делать все что угодно с этим объектом
 // obj.prop = 'other'
 // log(obj.prop)
@@ -472,6 +476,7 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Ob
 // function deepFreeze(obj) {
 //   // Получаем имена свойств из объекта obj
 //   let propNames = Object.getOwnPropertyNames(obj); // возвращает массив со всеми свойствами
+//   log(propNames)
 //   // Замораживаем свойства для заморозки самого объекта
 //   propNames.forEach(name => {
 //     let prop = obj[name];
@@ -865,12 +870,16 @@ https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%BD%D0%B8%D0%BC%D0%B0%D0%B5%D0%BC-
 // displayName() не имеет никаких собственных локальных переменных. Однако, поскольку внутренние функции имеют доступ к переменным внешних функций, displayName() может иметь доступ к переменной name, объявленной в родительской функции init().
 // function init() {
 //   let name = "Mozilla"; // name - локальная переменная, созданная в init
-//   function displayName() { // displayName() - внутренняя функция, замыкание
-//       log(name); // displayName() использует переменную, объявленную в родительской функции
+//   return function displayName() { // displayName() - внутренняя функция, замыкание
+//       return name += 's'; // displayName() использует переменную, объявленную в родительской функции
 //   }
 //   displayName();
 // }
-// init();
+// let startInit = init();
+// log(startInit())
+// log(startInit())
+// log(startInit())
+// log(startInit())
 
 // Пример 2 секундомер
 // function sec() {
@@ -892,7 +901,7 @@ https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%BD%D0%B8%D0%BC%D0%B0%D0%B5%D0%BC-
 // log(another())
 // log(another())
 // log(another())
-// // let interval = setInterval(() => log(second()), 1000); // НЕ РЕКОМЕНДУЕТСЯ вклчючать в этой IDE из за автосохранения
+// let interval = setInterval(() => log(second()), 1000); // НЕ РЕКОМЕНДУЕТСЯ вклчючать в этой IDE из за автосохранения
 // // clearInterval(interval)
 
 // Пример 3 повторение примера 2
@@ -903,10 +912,10 @@ https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%BD%D0%B8%D0%BC%D0%B0%D0%B5%D0%BC-
 //   }
 // }
 // let count = getCounter(); // переменная count это просто возвращенная анонимная функция со своим Скоупом 
-// console.log(count());  // 0 когда мы вызываем ссылаемся посредством переменной к этой фции мы получаем значение переменной из внешнего скоупа на +1 больше.
+// log(count());  // 0 когда мы вызываем ссылаемся посредством переменной к этой фции мы получаем значение переменной из внешнего скоупа на +1 больше.
 // count - это замыкание
-// console.log(count());  // 1
-// console.log(count());  // 2
+// log(count());  // 1
+// log(count());  // 2
 
 // Пример 4 - рекурсия (забегая наперед)
 // const incrementUntil = function(max) { 
@@ -963,3 +972,91 @@ https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%BD%D0%B8%D0%BC%D0%B0%D0%B5%D0%BC-
 // Сохраняются в памяти          /
 // Рекурсивный случай, от него все возвращается
 // (справа налево) 1 * 2 => 2 * 3 => 6 * 4 => 24 * 5 => 120
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Что такое Promise?
+/*
+Promise - это специальный объект в JavaScript, который связывает «создающий» и «потребляющий» коды вместе.
+Объект Promise используется для отложенных и асинхронных вычислений.
+
+У Promise есть 2 варианта написания синтаксиса:
+с 1 аргументом (executor), функция executor получает оба аргумента и выполняется сразу, ещё до того как конструктор вернёт созданный объект.
+с 2 аргументами (function(resolve, reject) { ... }) первый аргумент (resolve) вызывает успешное исполнение промиса, второй (reject) отклоняет его.
+Promise позволяет обрабатывать результаты асинхронных операций так, как если бы они были синхронными: вместо конечного результата асинхронного метода возвращается своего рода обещание получить результат в некоторый момент в будущем.
+
+Promise может находиться в трёх состояниях (state):
+-ожидание (pending): начальное состояние, не исполнен и не отклонён.
+-исполнено (fulfilled): операция завершена успешно.
+-отклонено (rejected): операция завершена с ошибкой.
+
+https://learn.javascript.ru/promise-basics
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
+*/
+// Пример 0
+// let a = 7
+// setTimeout(() => {
+//   a = 99
+// }, 2000);
+// log(a)
+// log(a)
+
+// let b = new Promise(function(resolve, reject) {
+//   setTimeout(() => {
+//     resolve(a = 99)
+//   }, 2000);
+// });
+
+// b.then(function() {
+//   log(a)
+// })
+// Пример 1
+// const promise = new Promise((resolve, reject) => {
+//  // выполняется асинхронная операция, которая в итоге вызовет:
+//   setTimeout(() => {
+//     resolve('done');
+//   }, 2000);
+// });
+
+// log(promise.toString()) 
+// promise.then((value) => { // then возвратил промис, value выводится при исполнении промиса 
+//   log(value);
+//   // expected output: "foo"
+// });
+
+// Пример 2 Выбразывание ошибки (reject)
+// const promise = new Promise((resolve, reject) => {
+//   // спустя две секунды будет сообщено, что задача выполнена с ошибкой
+//   setTimeout(() => reject(new Error("Whoops!")), 2000);
+// });
+
+// promise.then(
+//   res => {
+//     log(res) // не сработал
+//   },
+//   err => {
+//     log(err.name, err.message) // возвращает ошибку
+//   }
+// )
+
+// Пример 3 Цепочка then b
+// const promise = new Promise((resolve, reject) => {
+//   // спустя две секунды будет сообщено, что задача выполнена с ошибкой
+//   setTimeout(() => reject(new Error("Whoops!")), 2000); // <-- не вызовется
+//   setTimeout(() => resolve('done'), 1000); // сработает первой и на этом закончится
+// });
+
+// promise.then(
+//   res => {
+//     log(res) // не сработал
+//   },
+//   err => {
+//     log(err.name, err.message) // возвращает ошибку
+//   }
+// )
