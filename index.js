@@ -1060,3 +1060,131 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Pr
 //     log(err.name, err.message) // возвращает ошибку
 //   }
 // )
+
+// Пример 4 Реальный пример
+// const currentElem = document.querySelector('.picture-container');
+// const loadImage = (url) => new Promise((resolve, reject) => {
+//   const img = new Image();
+//   img.addEventListener('load', () => {
+//     setTimeout(() => {
+//       resolve(url);
+//     }, 1000); // имитируем долгую загрузку изображения
+//   });
+//   img.addEventListener('error', (err) => reject(err));
+//   img.src = url;
+// });
+
+//  loadImage("https://pw.artfile.me/wallpaper/28-03-2012/650x407/anime-evangelion-krasnyj-fon-aska-lengli-619115.jpg")
+//    .then(img => {
+//       currentElem.insertAdjacentHTML("afterbegin", `<img class="picture-container__img" src="${img}" alt="Aska">`);
+//     })
+//    .catch(err => console.error(err));
+
+// Пример 5 Реальный пример 2
+// АД колбеков
+// log('Request data...')
+// setTimeout(() => {
+//   log('Prepairing data...')
+//   const dataBackend = {
+//     server: 'serv',
+//     data: 12311n
+//   }
+//   setTimeout(() => {
+//     dataBackend.mod = true;
+//     log('Data received', dataBackend)
+//   }, 2000)
+// }, 2000)
+
+// Реализация через промис
+
+// log('Request data...')
+// const promise = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     log('Prepairing data...')
+//     const dataBackend = {
+//       server: 'serv',
+//       data: 12311n
+//     }
+//     log(dataBackend)
+//     reject(dataBackend)
+//   }, 2000)
+// })
+ 
+// promise
+//   .then(data => {
+//     // secondPromise = new Promise((resolve, reject) => {
+//     //   setTimeout(() => {
+//     //     data.mod = true;
+//     //     resolve(data);
+//     //   }, 2000)
+//     // })
+
+//     // secondPromise.then(clientData => { // } этот кусок кода может не участвовать
+//     //   log('Data received', clientData)
+//     // })
+
+//     // модификация кода сверху
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         data.mod = true;
+//         resolve(data);
+//       }, 2000)
+//     });
+//     // Так как then и так возвращает промис, нам незачем вызывать еще 1 then уже с модификацией нашей даты
+//   })
+//   .then(data => {
+//     log(data);
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         data.modClient = true;
+//         resolve(data);
+//       }, 2000)
+//     });
+//   })
+//   .then(data => {
+//     log('Operations is over!', data);
+//   })
+//   .catch(err => {
+//     console.error('Err: ', err)
+//   })
+//   .finaly(() => 'Закончил все либо с успехом, либо с ошибкой')
+
+// Пример 6 Реальный пример 3 (не надо запускать)
+// const sleep = () => {
+//   let time = 0;
+//   return function() {
+//     time += 1
+//     log(time)
+//     return new Promise(resolve => {
+//       setTimeout(() => resolve(time), 1000)
+//     })
+//   }
+// }
+// let timer = sleep();
+// timer().then(sec => sec)
+// timer().then(sec => sec)
+// timer().then(sec => sec)
+// timer().then(sec => sec)
+// timer().then(sec => sec)
+// timer().then(sec => sec)
+
+// Пример 7 Реальный пример 4
+// const clock = ms => {
+//   log(`Куку вылетет через ${ms}сек`)
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve('Куку СУКА'), ms)
+//   })
+// }
+// clock(2000).then(data => log(data))
+
+// Пример 7 Реальный пример 4 (Раскоментить пример 7 для корректной работы)
+// Массив промисов, который возвращает промис
+// Promise.all([clock(2000), clock(5000)]) // выполняется когда все промисы закончили работу
+//   .then(prom => {
+//     log('Все данные загрузились')
+//   })
+
+//   Promise.race([clock(2000), clock(5000)]) // выполнится 1 промис, который быстрее обработается
+//   .then(prom => {
+//     log('Return oll Promises')
+//   })
