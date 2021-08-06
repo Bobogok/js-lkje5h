@@ -1198,16 +1198,209 @@ https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Pr
 
 // Что такое async await?
 /*
+Ключевое слово async перед объявлением функции:
+-Обязывает её всегда возвращать промис.
+-Позволяет использовать await в теле этой функции.
+
+Ключевое слово await перед промисом заставит JavaScript дождаться его выполнения, после чего:
+-Если промис завершается с ошибкой, будет сгенерировано исключение, как если бы на этом месте находилось throw.
+-Иначе вернётся результат промиса.
+
 У слова async один простой смысл: эта функция всегда возвращает промис. Значения других типов оборачиваются в завершившийся успешно промис автоматически.
+Ключевое слово await заставит интерпретатор JavaScript ждать до тех пор, пока промис справа от await не выполнится. После чего оно вернёт его результат, и выполнение кода продолжится.
+
+Когда промис завершается успешно, await promise возвращает результат. Когда завершается с ошибкой – будет выброшено исключение. Как если бы на этом месте находилось выражение throw.
+
+Обработка ошибок
+При работе с async/await, .then используется нечасто, так как await автоматически ожидает завершения выполнения промиса. В этом случае обычно (но не всегда) гораздо удобнее перехватывать ошибки, используя try..catch, нежели чем .catch.
 https://learn.javascript.ru/async-await
 */
 
 // Пример 1
-async function f() {
-  return 1;
-}
-log(f())
-log(1)
+// async function f() {
+//   return 1;
+// }
+// log(f())
+// log(1)
+
+// async function f() {
+//   return Promise.resolve(1);
+// }
+// f().then(log); 
+
+// Пример 2
+// async function f() {
+//   let promise = new Promise((resolve, reject) => {
+//     log('Выполнение перешло в промис...')
+//     setTimeout(() => {
+//       resolve("готово!")
+//     }, 2000)
+//   });
+
+//   let result = await promise; // будет ждать, пока промис не выполнится (*)
+
+//   log(result); // "готово!"
+//   log('Код после')
+// }
+// f();
+
+// Пример 3 (Переписывание Промиса)
+// async function showPicture() {
+//   const currentElem = document.querySelector('.picture-container');
+//   let mypicture = await new Promise(resolve => {
+//     setTimeout(() => {
+//       let url = "https://pw.artfile.me/wallpaper/28-03-2012/650x407/anime-evangelion-krasnyj-fon-aska-lengli-619115.jpg";
+//       resolve(url)
+//     }, 3000); // эмулируем долгую загрузку изображения
+//   });
+
+//   currentElem.insertAdjacentHTML("afterbegin", `<img class="picture-container__img" src="${mypicture}" alt="Aska">`);
+//   log('Этот лог будет выполнен только поле того, как изображение загрузится');
+//   const newPromisePhoto = document.querySelector('.picture-container__img'); // если бы не было ожидания загрузки, мы бы просто не нашли такой элемент
+//   newPromisePhoto.classList.add('new-class');
+// }
+// showPicture()
+
+// Пример 4 (thenable obj)
+// await работает с «thenable»–объектами
+// если у объекта можно вызвать метод then, этого достаточно, чтобы использовать его с await.
+// class Thenable {
+//   constructor(num) {
+//     this.num = num;
+//   }
+//   then(resolve, reject) {
+//     log(resolve);
+//     // выполнить resolve со значением this.num * 2 через 2000мс
+//     setTimeout(() => resolve(this.num * 2), 2000); // (*)
+//   }
+// };
+
+// (async function f() {
+//   // код будет ждать 2 секунды,
+//   // после чего значение result станет равным 2
+//   let result = await new Thenable(5);
+//   log(result);
+// })()
+
+// Пример 5 (Замыкание)
+// function closure() {
+//   let sum = 0;
+//   return async function() {
+//     return await new Promise(resolve => {
+//       resolve(sum += 1)
+//     });
+//   }
+// }
+// let asyncClosure = closure();
+// asyncClosure()
+//   .then(sec => {
+//     log(sec);
+//     return new Promise(resolve => {
+//       setTimeout(() => {
+//         resolve(asyncClosure())
+//       }, 2000)
+//     })
+//   })
+//   .then(sec => {
+//     log(sec);
+//     return new Promise(resolve => {
+//       setTimeout(() => {
+//         resolve(asyncClosure())
+//       }, 2000)
+//     })
+//   })
+
+// Пример 6 (Асинхронные методы классов)
+// class Waiter {
+//   async wait() { // возвратит промис
+//     return await new Promise(resolve => { // будет ждать промиса справа и вернет его
+//       setTimeout(() => resolve(1), 3000)
+//     });
+//   }
+// }
+// new Waiter() // заздаем новый экземпляр объекта
+//   .wait()  // вызываем метод, который вернет нам промис
+//   .then(log) // передаем промису аргумент для обработки
+
+// Пример 7 (ловим бабочек (ошибки))
+// на практике промис может завершиться с ошибкой не сразу, а через некоторое время. В этом случае будет задержка, а затем await выбросит исключение.
+// Такие ошибки можно ловить, используя try..catch, как с обычным throw
+// async function f() {
+//   try {
+//     let response = await fetch('http://no-such-url'); //fetch - асинхронный API JS
+//     let userData = await response.json()
+//   } catch(err) {
+//     log(err); // TypeError: failed to fetch
+//   }
+// }
+// f();
+
+// Перепишем пример выше под метод промисов .catch()
+// async function f() {
+//   let response = await fetch('http://no-such-url');
+// }
+// f().catch(log);
+
+// Пример 8 (ожирание нескольких ответов ИТОГ)
+// const dataForServer = {
+//   name: 'Ivan',
+//   age: 20,
+//   city: 'Hole'
+// }
+// class Server {
+//   constructor(name, age, city) {
+//     this.name = name;
+//     this.age = age;
+//     this.city = city;
+//   }
+
+//   compileData() {
+//     return `Привет, меня зовут ${this.name}, мне ${this.age} лет, я из ${this.city}`;
+//   }
+
+//   then(resolve, reject) {
+//     log('Данные обрабатываются...')
+//     setTimeout(() => {
+//       log('Данные отправляются...');
+//       resolve(this.compileData());
+//     }, 2000);
+//   }
+// }
+// const server2 = new Promise(resolve => {
+//   const dataBackend = {
+//     server: 'serv',
+//     data: 12311n
+//   }
+//   log('Данные обрабатываются...')
+//   setTimeout(() => {
+//     log('Данные отправляются...');
+//     resolve(dataBackend)
+//   }, 4000);
+// });
+// // log(new Server(...Object.values(dataForServer)).compileData())
+// // log(server2.then(dataServer2 => log(dataServer2)))
+// async function results() {
+//   let server = new Server(...Object.values(dataForServer));
+//   try {
+//     let allResult = await Promise.all([server, server2]);
+//     return allResult
+//   }
+//   catch (e) {
+//     log(e)
+//   }
+// }
+// results()
+//   .then(result => {
+//     log('Все данные обработаны и готовы отправится к пользователю')
+//     return new Promise(resolve => {
+//       setTimeout(() => {
+//         let firstData = result[0];
+//         let secondData = result[1];
+//         resolve([firstData, secondData]);
+//       }, 2000)
+//     })
+//   })
+//   .then(log)
 
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
