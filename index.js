@@ -1402,6 +1402,69 @@ https://learn.javascript.ru/async-await
 //   })
 //   .then(log)
 
+// Пример 9 (Не для слабонервных)
+// class HttpError extends Error {
+//   constructor(response) {
+//     super(`${response.status} for ${response.url}`);
+//     this.name = 'HttpError';
+//     this.response = response;
+//   }
+// }
+
+// async function loadJson(url) {
+//   let result = await fetch(url);
+//   if (result.status == 200) {
+//     return await result.json();
+//   } else {
+//     throw new HttpError(result);
+//   }
+// }
+
+// async function demoGithubUser() {
+
+//   let user;
+//   while (true) {
+//     let name = prompt("Введите логин?", "Bobogok");
+//     try {
+//       if (name === null) continue;
+//       user = await loadJson(`https://api.github.com/users/${name}`);
+//       break
+//     }
+//     catch(err) {
+//       if (err instanceof HttpError && err.response.status == 404) {
+//         console.error("Такого пользователя не существует, пожалуйста, повторите ввод.");
+//       } else {
+//         throw err;
+//       }
+//     }
+//   }
+
+//   log(`Успешная загрузка: ${user.name}.`);
+//   return user;
+// }
+
+// const gitHubUser = demoGithubUser();
+
+// async function slowDownloadPicture() {
+//   let currUrl = await new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve(gitHubUser)
+//     }, 3000);
+//   });
+//   return currUrl.avatar_url;
+// }
+
+// const urlPromiseGigHubUser = slowDownloadPicture();
+
+// async function loadImageInDOM(url) {
+//   let img = await url;
+//   const currentElem = document.querySelector('.picture-container');
+
+//   currentElem.insertAdjacentHTML("afterbegin", `<img class="picture-container__img" src="${img}" alt="gitHub ava">`);
+// }
+
+// loadImageInDOM(urlPromiseGigHubUser);
+
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
